@@ -1,0 +1,52 @@
+const fs = require('fs');
+const axios = require('axios');
+var wordsFile = '';
+var words = [
+  {
+    "en": "accommodate",
+    "ru": "вмещать"
+  },
+  {
+    "en": "ambiguous",
+    "ru": "двусмысленный"
+  }
+];
+
+var headers = {
+    "app_id": "",
+    "app_key": ""
+};
+
+var URL = 'https://od-api.oxforddictionaries.com/api/v2/entries/en-gb/';
+
+async function saveJSON() {
+    for (const el of words) {
+        var phrase = el.en;
+        phrase.toLowerCase();
+        phrase = phrase.split(' ').join('_');
+        phrase = encodeURI(phrase);
+        await axios({
+            method: 'get',
+            url: URL + phrase + '?strictMatch=false',
+            headers: headers
+        }).then(function (response) {
+            var result = response.data.results[0].lexicalEntries[0];
+            el.definition = (typeof result.entries[0].senses[0].definitions !== "undefined") ? result.entries[0].senses[0].definitions[0] : '';
+            el.pronunciations = (typeof result.pronunciations !== "undefined") ? JSON.stringify(result.pronunciations[0].phoneticSpelling) : '';
+        }).catch((error) => {
+           console.error("ERROR ---- ", el.en, error);
+        });
+    }
+    wordsFile = 'var words = ' + JSON.stringify(words) + ';';
+
+    fs.writeFile("./words.js", wordsFile, function(err) {
+        if (err) {
+            return console.log(err);
+        }
+
+        console.log("The words file was saved!");
+    });
+};
+saveJSON();
+
+
