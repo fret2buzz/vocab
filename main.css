@@ -15,6 +15,8 @@ body {
 .word-form {
     border: 2px dashed #eee;
     padding: 20px;
+    text-align: center;
+    background: #ffc;
 }
 .word-input,
 .word-button {
@@ -44,9 +46,15 @@ body {
     border: 1px solid #ccc;
     vertical-align: top;
     padding: 5px;
-}
-.word-table td {
     background: #fcc;
+}
+.word-table th {
+    border: 1px solid #ccc;
+    font-weight: 400;
+    text-align: left;
+    white-space: nowrap;
+    background: #eee;
+    padding: 5px;
 }
 .word-table .valid td {
     background: 0 0;
@@ -59,4 +67,7 @@ body {
 }
 .word-enetered {
     font-weight: 700;
+}
+h1 {
+    text-align: center;
 }
