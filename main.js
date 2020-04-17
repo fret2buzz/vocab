@@ -74,11 +74,16 @@ function changeWord(rus, def, ar) {
 document.addEventListener("DOMContentLoaded", () => {
     var newArray = shuffle(words);
     var button = document.getElementById('button');
+    var skipButton = document.getElementById('skip');
     var wordRus = document.getElementById('wordRus');
     var wordDef = document.getElementById('wordDef');
     var wordInput = document.getElementById('word');
     changeWord(wordRus, wordDef, newArray);
     button.addEventListener('click', () => {
+        nextWord(wordInput, wordRus, wordDef, newArray);
+    });
+    skipButton.addEventListener('click', () => {
+        wordInput.value = 'skipped';
         nextWord(wordInput, wordRus, wordDef, newArray);
     });
     wordInput.addEventListener('keyup', (e) => {
