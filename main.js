@@ -35,7 +35,7 @@ function nextWord(input, rus, def, ar) {
         var resHTML = '';
         ar.forEach(function(el, index) {
             var valid = (el.valid) ? 'valid' : '';
-            var pronunciation = el.pronunciations.split('"').join('');
+            var pronunciation = (el.pronunciations) ? el.pronunciations.split('"').join('') : '';;
             resHTML += `
                 <tr class="${valid}">
                     <td>${index+1}</td>
