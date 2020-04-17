@@ -35,14 +35,15 @@ function nextWord(input, rus, def, ar) {
         var resHTML = '';
         ar.forEach(function(el, index) {
             var valid = (el.valid) ? 'valid' : '';
-            var pronunciation = (el.pronunciations) ? el.pronunciations.split('"').join('') : '';;
+            var pronunciation = (el.pronunciations) ? el.pronunciations.split('"').join('') : '';
+            var definition = (el.definition) ? el.definition : '';
             resHTML += `
                 <tr class="${valid}">
                     <td>${index+1}</td>
                     <td>${el.en}</td>
                     <td class="word-pronunciations">${pronunciation}</td>
                     <td>${el.ru}</td>
-                    <td class="word-definition">${el.definition}</td>
+                    <td class="word-definition">${definition}</td>
                     <td class="word-enetered">${el.entered}</td>
                 </tr>
             `;
