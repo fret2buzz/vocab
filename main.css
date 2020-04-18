@@ -1,9 +1,30 @@
+* {
+    box-sizing: border-box;
+}
 body {
     font-family: 'Arial', sans-serif;
     font-size: 16px;
 }
+.word-sidebar {
+    padding: 0 0 20px;
+}
+@media (min-width: 768px) {
+    .word-container {
+        display: flex;
+        flex-flow: row nowrap;
+        justify-content: space-between;
+    }
+    .word-sidebar {
+        padding: 0;
+        flex: 0 0 28%;
+        max-width: 28%;
+    }
+    .word-main {
+        flex: 0 0 70%;
+        max-width: 70%;
+    }
+}
 .word-block {
-    text-align: center;
     padding: 20px 0 0;
 }
 .word-rus {
@@ -15,8 +36,15 @@ body {
 .word-form {
     border: 2px dashed #eee;
     padding: 20px;
-    text-align: center;
     background: #ffc;
+}
+.word-label {
+    padding: 0 0 10px;
+    display: block;
+}
+.word-buttons {
+    padding: 10px 0 0;
+    display: block;
 }
 .word-input,
 .word-button {
@@ -24,9 +52,9 @@ body {
     font-family: 'Arial', sans-serif;
 }
 .word-result {
-    padding: 20px;
+    padding: 20px 0 0;
 }
-.word-container {
+.word-app {
     position: relative;
     padding: 20px 0 0;
 }
@@ -42,19 +70,23 @@ body {
     width: 100%;
     border-collapse: collapse;
 }
+.word-table tr {
+    display: block;
+    padding: 10px 0 0;
+    margin: 10px 0 0;
+    border-top: 1px solid #ccc;
+}
+.word-table tr:first-child {
+    padding: 0;
+    margin: 0;
+    border: 0;
+}
 .word-table td {
-    border: 1px solid #ccc;
-    vertical-align: top;
-    padding: 5px;
+    display: block;
     background: #fcc;
 }
 .word-table th {
-    border: 1px solid #ccc;
-    font-weight: 400;
-    text-align: left;
-    white-space: nowrap;
-    background: #eee;
-    padding: 5px;
+    display: none;
 }
 .word-table .valid td {
     background: 0 0;
@@ -68,6 +100,37 @@ body {
 .word-enetered {
     font-weight: 700;
 }
+@media (min-width: 768px) {
+    .word-table tr {
+        display: table-row;
+        padding: 0;
+        margin: 0;
+        border: 0;
+    }
+    .word-table td {
+        display: table-cell;
+        border: 1px solid #ccc;
+        vertical-align: top;
+        padding: 5px;
+    }
+    .word-table th {
+        border: 1px solid #ccc;
+        font-weight: 400;
+        text-align: left;
+        white-space: nowrap;
+        padding: 5px;
+        background: #eee;
+    }
+    .word-table .valid td {
+        background: 0 0;
+    }
+}
 h1 {
-    text-align: center;
+    padding: 0 0 10px;
+    margin: 0;
+}
+.word-textarea {
+    padding: 0;
+    margin: 0;
+    width: 100%;
 }

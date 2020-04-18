@@ -1,5 +1,7 @@
 var start = 0;
 var score = 0;
+var words = '';
+var newArray = [];
 function shuffle(array) {
     var m = array.length, t, i;
 
@@ -31,7 +33,7 @@ function nextWord(input, rus, def, ar) {
             changeWord(rus, def, ar);
         }
     } else {
-        document.getElementById('wordContainer').style.display = 'none';
+        // document.getElementById('wordApp').style.display = 'none';
         var resHTML = '';
         ar.forEach(function(el, index) {
             var valid = (el.valid) ? 'valid' : '';
@@ -39,12 +41,12 @@ function nextWord(input, rus, def, ar) {
             var definition = (el.definition) ? el.definition : '';
             resHTML += `
                 <tr class="${valid}">
-                    <td>${index+1}</td>
+                    <td>${index+1}.</td>
+                    <td class="word-enetered">${el.entered}</td>
                     <td>${el.en}</td>
                     <td class="word-pronunciations">${pronunciation}</td>
                     <td>${el.ru}</td>
                     <td class="word-definition">${definition}</td>
-                    <td class="word-enetered">${el.entered}</td>
                 </tr>
             `;
         });
@@ -59,7 +61,9 @@ function nextWord(input, rus, def, ar) {
                     <th>Definition</th>
                     <th>Your word</th>
                 </tr>
-                ${resHTML}
+                <tbody>
+                    ${resHTML}
+                </tbody>
             </table>
         `;
         document.getElementById('wordResult').innerHTML = resHTML;
@@ -71,20 +75,37 @@ function changeWord(rus, def, ar) {
     def.innerHTML = (ar[start].definition) ? ar[start].definition : '';
     document.getElementById('wordProgress').style.width = (start + 1) / ar.length * 100 + '%';
 }
+function updateWordsArray(textarea, resultHTML) {
+    resultHTML.innerHTML = '';
+    start = 0;
+    score = 0;
+    words = Papa.parse(textarea.value,{
+        delimiter: ';',
+        skipEmptyLines: true,
+        header: true
+    });
+    newArray = shuffle(words.data);
+    changeWord(wordRus, wordDef, newArray);
+}
 document.addEventListener("DOMContentLoaded", () => {
-    var newArray = shuffle(words);
+    var resultHTML = document.getElementById('wordResult');
+    var textarea = document.getElementById('wordCsv');
     var button = document.getElementById('button');
     var skipButton = document.getElementById('skip');
+    var csvButton = document.getElementById('csv');
     var wordRus = document.getElementById('wordRus');
     var wordDef = document.getElementById('wordDef');
     var wordInput = document.getElementById('word');
-    changeWord(wordRus, wordDef, newArray);
+    updateWordsArray(textarea, resultHTML);
     button.addEventListener('click', () => {
         nextWord(wordInput, wordRus, wordDef, newArray);
     });
     skipButton.addEventListener('click', () => {
-        wordInput.value = 'skipped';
+        wordInput.value = '-';
         nextWord(wordInput, wordRus, wordDef, newArray);
+    });
+    csvButton.addEventListener('click', () => {
+        updateWordsArray(textarea, resultHTML);
     });
     wordInput.addEventListener('keyup', (e) => {
         if (e.which == 13) { // enter

@@ -1,1 +1,0 @@
-var words = [{"en":"scattered","ru":"раскиданный","definition":"occurring or found at intervals or various locations rather than all together","pronunciations":"\"ˈskatəd\""},{"en":"paddle","ru":"весло","definition":"a short pole with a broad blade at one or both ends, used without a rowlock to move a small boat or canoe through the water","pronunciations":"\"ˈpad(ə)l\""}];
