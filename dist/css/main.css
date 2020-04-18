@@ -1,0 +1,150 @@
+* {
+    box-sizing: border-box;
+}
+body {
+    font-family: 'Arial', sans-serif;
+    font-size: 16px;
+}
+.word-sidebar {
+    padding: 0 0 20px;
+}
+@media (min-width: 768px) {
+    .word-container {
+        display: flex;
+        flex-flow: row nowrap;
+        justify-content: space-between;
+    }
+    .word-sidebar {
+        padding: 0;
+        flex: 0 0 28%;
+        max-width: 28%;
+    }
+    .word-main {
+        flex: 0 0 70%;
+        max-width: 70%;
+    }
+}
+.word-block {
+    padding: 20px 0 0;
+}
+.word-translation {
+    font-size: 48px;
+}
+.word-def {
+    padding: 10px 0 0;
+    font-size: 22px;
+}
+.word-form {
+    border: 2px dashed #eee;
+    padding: 20px;
+    background: #ffc;
+}
+.word-label {
+    padding: 0 0 10px;
+    display: block;
+}
+.word-buttons {
+    padding: 10px 0 0;
+    display: block;
+}
+.word-input,
+.word-button {
+    font-size: 24px;
+    font-family: 'Arial', sans-serif;
+}
+.word-app {
+    position: relative;
+    padding: 20px 0 0;
+}
+.word-progress {
+    position: absolute;
+    left: 0;
+    top: 0;
+    border-radius: 5px;
+    height: 10px;
+    background: #369;
+}
+.word-table {
+    width: 100%;
+    border-spacing: 0;
+    border-collapse: collapse;
+}
+.word-table tr {
+    display: block;
+    padding: 10px 0 0;
+    margin: 10px 0 0;
+    border-top: 1px solid #ccc;
+}
+.word-table tr:first-child {
+    padding: 0;
+    margin: 0;
+    border: 0;
+}
+.word-table td {
+    display: block;
+    background: #fcc;
+}
+.word-table th {
+    display: none;
+}
+.word-table .valid td {
+    background: 0 0;
+}
+.word-pronunciations {
+    font-family: monospace;
+}
+.word-enetered {
+    font-weight: 700;
+}
+@media (min-width: 768px) {
+    .word-table tr {
+        display: table-row;
+        padding: 0;
+        margin: 0;
+        border: 0;
+    }
+    .word-table td {
+        display: table-cell;
+        border: 1px solid #ccc;
+        vertical-align: top;
+        padding: 5px;
+    }
+    .word-table th {
+        display: table-cell;
+        border: 1px solid #ccc;
+        font-weight: 400;
+        text-align: left;
+        white-space: nowrap;
+        padding: 5px;
+        background: #eee;
+    }
+    .word-table .valid td {
+        background: 0 0;
+    }
+}
+h2 {
+    padding: 0 0 10px;
+    margin: 0;
+}
+.word-textarea {
+    padding: 0;
+    margin: 0;
+    width: 100%;
+    color: rgba(0, 0, 0, 0);
+}
+.word-textarea:focus,
+.word-textarea:hover {
+    color: #333;
+}
+.usage {
+    padding: 20px 0 0;
+    font-size: 12px;
+}
+.usage p {
+    padding: 0 0 5px;
+    margin: 0;
+}
+.usage img {
+    max-width: 100%;
+    height: auto;
+}

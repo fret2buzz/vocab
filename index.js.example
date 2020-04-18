@@ -1,16 +1,19 @@
 const fs = require('fs');
 const axios = require('axios');
 var wordsFile = '';
-var words = [
-  {
-    "en": "accommodate",
-    "ru": "вмещать"
-  },
-  {
-    "en": "ambiguous",
-    "ru": "двусмысленный"
-  }
-];
+var words = `
+en;ru
+scattered;раскиданный
+paddle;весло
+`;
+words = words.split('\n');
+words = words.filter(function(el){
+    return el != '';
+}).map(function(el){
+    return el.split(';');
+});
+words.shift();
+console.log(words);
 
 var headers = {
     "app_id": "",
@@ -21,7 +24,7 @@ var URL = 'https://od-api.oxforddictionaries.com/api/v2/entries/en-gb/';
 
 async function saveJSON() {
     for (const el of words) {
-        var phrase = el.en;
+        var phrase = el[0];
         phrase.toLowerCase();
         phrase = phrase.split(' ').join('_');
         phrase = encodeURI(phrase);
@@ -31,15 +34,20 @@ async function saveJSON() {
             headers: headers
         }).then(function (response) {
             var result = response.data.results[0].lexicalEntries[0];
-            el.definition = (typeof result.entries[0].senses[0].definitions !== "undefined") ? result.entries[0].senses[0].definitions[0] : '';
-            el.pronunciations = (typeof result.pronunciations !== "undefined") ? JSON.stringify(result.pronunciations[0].phoneticSpelling) : '';
+            el[2] = (typeof result.entries[0].senses[0].definitions !== "undefined") ? '\"' + result.entries[0].senses[0].definitions[0] + '\"' : '';
+            el[3] = (typeof result.pronunciations !== "undefined") ? JSON.stringify(result.pronunciations[0].phoneticSpelling) : '';
         }).catch((error) => {
            console.error("ERROR ---- ", el.en, error);
         });
     }
-    wordsFile = 'var words = ' + JSON.stringify(words) + ';';
+    var lines = words.map(function(el){
+        return el.join(';');
+    });
+    lines = lines.join('\n');
+    console.log(lines);
+    wordsFile = 'en;ru;definition;pronunciations\n' + lines;
 
-    fs.writeFile("./words.js", wordsFile, function(err) {
+    fs.writeFile("./words.csv", wordsFile, function(err) {
         if (err) {
             return console.log(err);
         }
@@ -48,5 +56,7 @@ async function saveJSON() {
     });
 };
 saveJSON();
+
+
 
 
