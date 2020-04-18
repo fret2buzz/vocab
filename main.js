@@ -51,7 +51,7 @@ function nextWord(input, translation, def, ar, wordApp) {
             `;
         });
         resHTML = `
-            <h1>${score} of ${ar.length}</h1>
+            <h2>Your result is ${score} of ${ar.length}</h2>
             <table class="word-table">
                 <tr>
                     <th>#</th>

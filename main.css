@@ -51,9 +51,6 @@ body {
     font-size: 24px;
     font-family: 'Arial', sans-serif;
 }
-.word-result {
-    padding: 20px 0 0;
-}
 .word-app {
     position: relative;
     padding: 20px 0 0;
@@ -68,6 +65,7 @@ body {
 }
 .word-table {
     width: 100%;
+    border-spacing: 0;
     border-collapse: collapse;
 }
 .word-table tr {
@@ -90,9 +88,6 @@ body {
 }
 .word-table .valid td {
     background: 0 0;
-}
-.word-definition {
-    font-size: 12px;
 }
 .word-pronunciations {
     font-family: monospace;
@@ -126,7 +121,7 @@ body {
         background: 0 0;
     }
 }
-h1 {
+h2 {
     padding: 0 0 10px;
     margin: 0;
 }
@@ -134,4 +129,9 @@ h1 {
     padding: 0;
     margin: 0;
     width: 100%;
+    color: rgba(0, 0, 0, 0);
+}
+.word-textarea:focus,
+.word-textarea:hover {
+    color: #333;
 }
