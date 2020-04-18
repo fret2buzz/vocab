@@ -136,3 +136,15 @@ h2 {
 .word-textarea:hover {
     color: #333;
 }
+.usage {
+    padding: 20px 0 0;
+    font-size: 12px;
+}
+.usage p {
+    padding: 0 0 5px;
+    margin: 0;
+}
+.usage img {
+    max-width: 100%;
+    height: auto;
+}

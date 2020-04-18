@@ -4,9 +4,9 @@
     <meta charset="UTF-8">
     <title>Vocabulary test</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <script src="src/papaparse.min.js"></script>
-    <script src="main.js" type="text/javascript"></script>
-    <link rel="stylesheet" href="main.css">
+    <script src="js/papaparse.min.js"></script>
+    <script src="js/main.js" type="text/javascript"></script>
+    <link rel="stylesheet" href="css/main.css">
 </head>
 <body>
     <h1>Vocabulary test</h1>
@@ -17,6 +17,19 @@ scattered;раскиданный;"occurring or found at intervals or various loc
 paddle;весло;"a short pole with a broad blade at one or both ends, used without a rowlock to move a small boat or canoe through the water";"ˈpad(ə)l"</textarea>
             <div class="word-buttons">
                 <button class="word-button" id="start">Start</button>
+            </div>
+            <div class="usage">
+                <h2>Usage:</h2>
+                <p>
+                    Create a spreadsheet document with 2 columns (A) for english word and (B) for translation. There are 2 optional columns 'definition' and 'pronunciations'.
+                </p>
+                <p>
+                    Then add this formula <code>=CONCATENATE(A1,";",B1)</code> to the last column of your document.
+                </p>
+                <p>The result should be like this<br /><img src="sheet.png" alt="sheet" width="449" height="119"></p>
+                <p>
+                    Then simply copy and paste the data from the new column into the textarea.
+                </p>
             </div>
         </div>
         <div class="word-main">
