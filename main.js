@@ -79,7 +79,8 @@ function updateWordsArray(textarea, resultHTML) {
     resultHTML.innerHTML = '';
     start = 0;
     score = 0;
-    words = Papa.parse(textarea.value,{
+    var data = textarea.value.toLowerCase();
+    words = Papa.parse(data,{
         delimiter: ';',
         skipEmptyLines: true,
         header: true
