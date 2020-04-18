@@ -18,7 +18,7 @@ function shuffle(array) {
 
     return array;
 }
-function nextWord(input, rus, def, ar) {
+function nextWord(input, rus, def, ar, wordApp) {
     var enteredWord = input.value.toLowerCase().trim();
     ar[start]['entered'] = enteredWord;
     ar[start]['valid'] = (enteredWord == ar[start].en);
@@ -33,7 +33,7 @@ function nextWord(input, rus, def, ar) {
             changeWord(rus, def, ar);
         }
     } else {
-        // document.getElementById('wordApp').style.display = 'none';
+        wordApp.style.display = 'none';
         var resHTML = '';
         ar.forEach(function(el, index) {
             var valid = (el.valid) ? 'valid' : '';
@@ -88,24 +88,27 @@ function updateWordsArray(textarea, resultHTML) {
     changeWord(wordRus, wordDef, newArray);
 }
 document.addEventListener("DOMContentLoaded", () => {
+    var wordApp = document.getElementById('wordApp');
     var resultHTML = document.getElementById('wordResult');
     var textarea = document.getElementById('wordCsv');
     var button = document.getElementById('button');
     var skipButton = document.getElementById('skip');
-    var csvButton = document.getElementById('csv');
+    var startButton = document.getElementById('start');
     var wordRus = document.getElementById('wordRus');
     var wordDef = document.getElementById('wordDef');
     var wordInput = document.getElementById('word');
-    updateWordsArray(textarea, resultHTML);
+    updateWordsArray(textarea, resultHTML, wordApp);
     button.addEventListener('click', () => {
-        nextWord(wordInput, wordRus, wordDef, newArray);
+        nextWord(wordInput, wordRus, wordDef, newArray, wordApp);
     });
     skipButton.addEventListener('click', () => {
         wordInput.value = '-';
-        nextWord(wordInput, wordRus, wordDef, newArray);
+        nextWord(wordInput, wordRus, wordDef, newArray, wordApp);
     });
-    csvButton.addEventListener('click', () => {
+    startButton.addEventListener('click', () => {
         updateWordsArray(textarea, resultHTML);
+        wordApp.style.display = 'block';
+        wordInput.value = '';
     });
     wordInput.addEventListener('keyup', (e) => {
         if (e.which == 13) { // enter
