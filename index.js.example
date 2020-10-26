@@ -35,7 +35,7 @@ async function saveJSON() {
         }).then(function (response) {
             var result = response.data.results[0].lexicalEntries[0];
             el[2] = (typeof result.entries[0].senses[0].definitions !== "undefined") ? '\"' + result.entries[0].senses[0].definitions[0] + '\"' : '';
-            el[3] = (typeof result.pronunciations !== "undefined") ? JSON.stringify(result.pronunciations[0].phoneticSpelling) : '';
+            el[3] = (typeof result.entries[0].pronunciations[0].phoneticSpelling !== "undefined") ? result.entries[0].pronunciations[0].phoneticSpelling : '';
         }).catch((error) => {
            console.error("ERROR ---- ", el.en, error);
         });
