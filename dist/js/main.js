@@ -1,120 +1,87 @@
-var start = 0;
-var score = 0;
-var words = '';
-var newArray = [];
-function shuffle(array) {
-    var m = array.length, t, i;
+function vocabApp() {
+    return {
+        csv: `en;translation;definition;pronunciations
+scattered;раскиданный;"occurring or found at intervals or various locations rather than all together";"ˈskatəd"
+paddle;весло;"a short pole with a broad blade at one or both ends, used without a rowlock to move a small boat or canoe through the water";"ˈpad(ə)l"`,
+        words: [],
+        index: 0,
+        score: 0,
+        enteredWord: '',
+        finished: false,
+        started: false,
 
-    // While there remain elements to shuffle…
-    while (m) {
-        // Pick a remaining element…
-        i = Math.floor(Math.random() * m--);
+        get current() {
+            return this.words[this.index] || null;
+        },
 
-        // And swap it with the current element.
-        t = array[m];
-        array[m] = array[i];
-        array[i] = t;
-    }
+        get progress() {
+            if (!this.words.length) return 0;
+            return ((this.index + 1) / this.words.length) * 100;
+        },
 
-    return array;
+        shuffle(array) {
+            const arr = [...array];
+            let m = arr.length;
+            while (m) {
+                const i = Math.floor(Math.random() * m--);
+                [arr[m], arr[i]] = [arr[i], arr[m]];
+            }
+            return arr;
+        },
+
+        focusInput() {
+            this.$nextTick(() => {
+                this.$refs.wordInput?.focus();
+            });
+        },
+
+        parseCsv(text) {
+            return Papa.parse(text.toLowerCase(), {
+                delimiter: ';',
+                skipEmptyLines: true,
+                header: true,
+            }).data;
+        },
+
+        start() {
+            this.index = 0;
+            this.score = 0;
+            this.enteredWord = '';
+            this.finished = false;
+            this.words = this.shuffle(this.parseCsv(this.csv));
+            this.started = true;
+            this.focusInput();
+        },
+
+        submit(skip = false) {
+            if (!this.current || this.finished) return;
+
+            const entered = skip ? '-' : this.enteredWord.toLowerCase().trim();
+            if (!skip && entered === '') return;
+
+            this.current.entered = entered;
+            this.current.valid = entered === this.current.en;
+            if (this.current.valid) {
+                this.score++;
+            }
+
+            if (this.index < this.words.length - 1) {
+                this.index++;
+                this.enteredWord = '';
+                this.focusInput();
+            } else {
+                this.finished = true;
+            }
+        },
+
+        pronunciation(word) {
+            return word.pronunciations
+                ? word.pronunciations.split('"').join('')
+                : '';
+        },
+
+        init() {
+            this.start();
+        },
+    };
 }
-function nextWord(input, translation, def, ar, wordApp) {
-    var enteredWord = input.value.toLowerCase().trim();
-    ar[start]['entered'] = enteredWord;
-    ar[start]['valid'] = (enteredWord == ar[start].en);
-    if (ar[start]['valid']) {
-        score++;
-    }
-    console.log(enteredWord);
-    if(start != ar.length - 1) {
-        input.value = '';
-        if(enteredWord != '') {
-            start++;
-            changeWord(translation, def, ar);
-        }
-    } else {
-        wordApp.style.display = 'none';
-        var resHTML = '';
-        ar.forEach(function(el, index) {
-            var valid = (el.valid) ? 'valid' : '';
-            var pronunciation = (el.pronunciations) ? el.pronunciations.split('"').join('') : '';
-            var definition = (el.definition) ? el.definition : '';
-            resHTML += `
-                <tr class="${valid}">
-                    <td>${index+1}.</td>
-                    <td class="word-enetered">${el.entered}</td>
-                    <td>${el.en}</td>
-                    <td class="word-pronunciations">${pronunciation}</td>
-                    <td>${el.translation}</td>
-                    <td class="word-definition">${definition}</td>
-                </tr>
-            `;
-        });
-        resHTML = `
-            <h2>Your result is ${score} of ${ar.length}</h2>
-            <table class="word-table">
-                <tr>
-                    <th>#</th>
-                    <th>Your word</th>
-                    <th>English</th>
-                    <th>Pronunciation</th>
-                    <th>Translation</th>
-                    <th>Definition</th>
-                </tr>
-                <tbody>
-                    ${resHTML}
-                </tbody>
-            </table>
-        `;
-        document.getElementById('wordResult').innerHTML = resHTML;
-        console.log(ar);
-    }
-}
-function changeWord(translation, def, ar) {
-    translation.innerHTML = (ar[start].translation) ? start + 1 + '. ' + ar[start].translation : '';
-    def.innerHTML = (ar[start].definition) ? ar[start].definition : '';
-    document.getElementById('wordProgress').style.width = (start + 1) / ar.length * 100 + '%';
-}
-function updateWordsArray(textarea, resultHTML) {
-    resultHTML.innerHTML = '';
-    start = 0;
-    score = 0;
-    var data = textarea.value.toLowerCase();
-    words = Papa.parse(data,{
-        delimiter: ';',
-        skipEmptyLines: true,
-        header: true
-    });
-    newArray = shuffle(words.data);
-    changeWord(wordTranslation, wordDef, newArray);
-}
-document.addEventListener("DOMContentLoaded", () => {
-    var wordApp = document.getElementById('wordApp');
-    var resultHTML = document.getElementById('wordResult');
-    var textarea = document.getElementById('wordCsv');
-    var button = document.getElementById('button');
-    var skipButton = document.getElementById('skip');
-    var startButton = document.getElementById('start');
-    var wordTranslation = document.getElementById('wordTranslation');
-    var wordDef = document.getElementById('wordDef');
-    var wordInput = document.getElementById('word');
-    updateWordsArray(textarea, resultHTML, wordApp);
-    button.addEventListener('click', () => {
-        nextWord(wordInput, wordTranslation, wordDef, newArray, wordApp);
-    });
-    skipButton.addEventListener('click', () => {
-        wordInput.value = '-';
-        nextWord(wordInput, wordTranslation, wordDef, newArray, wordApp);
-    });
-    startButton.addEventListener('click', () => {
-        updateWordsArray(textarea, resultHTML);
-        wordApp.style.display = 'block';
-        wordInput.value = '';
-    });
-    wordInput.addEventListener('keyup', (e) => {
-        if (e.which == 13) { // enter
-            button.click();
-        }
-    });
-    console.log(newArray);
-});
